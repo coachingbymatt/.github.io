@@ -315,44 +315,6 @@
     text-align: center; margin-top: 12px;
     line-height: 1.5;
   }
-
-  /* ── ZUMUB CARD ── */
-  .zumub-card {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 18px;
-    padding: 18px 22px;
-    display: flex; align-items: center; gap: 16px;
-    text-decoration: none;
-    position: relative; overflow: hidden;
-    transition: transform 0.25s, border-color 0.25s;
-  }
-  .zumub-card::before {
-    content: '';
-    position: absolute; top: 0; left: 0; right: 0; height: 2px;
-    background: linear-gradient(90deg, var(--blue), #7ac5ff);
-  }
-  .zumub-card:hover { transform: translateY(-3px); border-color: rgba(74,158,255,0.2); }
-
-  .zumub-logo {
-    width: 48px; height: 48px; border-radius: 12px;
-    background: linear-gradient(135deg, #1a2e22, #2a4a35);
-    display: flex; align-items: center; justify-content: center;
-    font-size: 22px; flex-shrink: 0;
-  }
-  .zumub-title { font-size: 14px; font-weight: 600; margin-bottom: 3px; }
-  .zumub-sub { font-size: 12px; color: var(--muted); font-weight: 300; }
-
-  .code-pill {
-    margin-left: auto; flex-shrink: 0;
-    background: rgba(74,158,255,0.08);
-    border: 1px dashed rgba(74,158,255,0.35);
-    color: var(--blue);
-    font-size: 12px; font-weight: 700; letter-spacing: 0.12em;
-    padding: 6px 13px; border-radius: 8px;
-    font-family: 'Courier New', monospace;
-  }
-
   /* ── FOOTER ── */
   .footer {
     text-align: center; padding-top: 36px;
