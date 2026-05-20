@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Coach by Matt — Haltérophilie</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0a0a;
+    --bg-card: #141414;
+    --accent: #4a9e6a;
+    --accent-soft: rgba(74,158,106,0.2);
+    --border: rgba(255,255,255,0.08);
+    --text: #e8e8e8;
+    --muted: #888;
+    --label: #666;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { background: var(--bg); color: var(--text); font-family: 'DM Sans', sans-serif; }
+  body { padding: 30px 18px 60px; overflow-x: hidden; position: relative; }
+
+  .glow-1, .glow-2 {
+    position: fixed; border-radius: 50%; filter: blur(120px); z-index: 0; opacity: 0.25; pointer-events: none;
+  }
+  .glow-1 { width: 320px; height: 320px; background: var(--accent); top: -100px; right: -80px; }
+  .glow-2 { width: 400px; height: 400px; background: #2a5d3f; bottom: 50px; left: -120px; }
+
+  .container { position: relative; z-index: 1; max-width: 560px; margin: 0 auto; }
+
+  /* ── HEADER ── */
+  .header { text-align: center; padding-top: 10px; }
+  .avatar-ring {
+    width: 110px; height: 110px; border-radius: 50%;
+    border: 2px solid var(--accent); padding: 4px;
+    margin: 0 auto 22px;
+  }
+  .avatar-inner { width: 100%; height: 100%; border-radius: 50%; overflow: hidden; }
+  .handle { font-size: 12px; color: var(--accent); letter-spacing: 0.25em; margin-bottom: 14px; }
+  .main-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 56px; line-height: 1; letter-spacing: 0.02em;
+    color: #fff;
+  }
+  .main-title span { color: var(--accent); }
+  .tagline {
+    margin-top: 18px;
+    font-size: 13px; color: var(--muted);
+    letter-spacing: 0.04em;
+  }
+  .disciplines {
+    display: flex; flex-wrap: wrap; gap: 10px; justify-content: center;
+    margin-top: 26px;
+  }
+  .pill {
+    background: var(--bg-card); border: 1px solid var(--border);
+    border-radius: 100px; padding: 9px 18px;
+    font-size: 13px; color: var(--text);
+  }
+
+  /* ── DIVIDER ── */
+  .divider {
+    height: 1px; background: var(--border);
+    margin: 50px 0; position: relative;
+  }
+  .divider::before {
+    content: "♦"; position: absolute; left: 50%; top: -10px;
+    transform: translateX(-50%);
+    color: var(--accent); font-size: 12px;
+    background: var(--bg); padding: 0 10px;
+  }
+
+  /* ── SECTION LABEL ── */
+  .section-label {
+    font-size: 11px; color: var(--label);
+    letter-spacing: 0.3em; text-transform: uppercase;
+    margin-bottom: 18px;
+  }
+
+  /* ── PARCOURS ── */
+  .parcours-card {
+    background: var(--bg-card); border: 1px solid var(--border);
+    border-radius: 16px; padding: 26px 22px;
+    position: relative; overflow: hidden;
+  }
+  .parcours-card::before {
+    content: ""; position: absolute; top: 0; left: 0; right: 0;
+    height: 1px; background: linear-gradient(90deg, transparent, var(--accent), transparent);
+  }
+  .parcours-intro {
+    font-style: italic; color: #bbb; font-size: 14px;
+    line-height: 1.6; padding-left: 14px;
+    border-left: 2px solid var(--accent); margin-bottom: 24px;
+  }
+  .parcours-steps { display: flex; flex-direction: column; gap: 16px; }
+  .step { display: flex; gap: 14px; }
+  .step-year {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 22px; color: var(--accent);
+    min-width: 60px; letter-spacing: 0.04em;
+  }
+  .step-text { font-size: 14px; line-height: 1.55; color: var(--text); }
+
+  /* ── COACHING CARD ── */
+  .coaching-card {
+    background: var(--bg-card); border: 1px solid var(--border);
+    border-radius: 16px; padding: 28px 22px;
+    position: relative; overflow: hidden;
+  }
+  .coaching-card::before {
+    content: ""; position: absolute; top: 0; left: 0; right: 0;
+    height: 1px; background: linear-gradient(90deg, transparent, var(--accent), transparent);
+  }
+  .card-icon { font-size: 24px; display: block; margin-bottom: 14px; }
+  .card-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 28px; line-height: 1.05;
+    color: #fff; margin-bottom: 14px;
+    letter-spacing: 0.02em;
+  }
+  .card-desc { font-size: 14px; line-height: 1.6; color: var(--muted); margin-bottom: 22px; }
+  .card-desc strong { color: var(--text); }
+
+  /* ── COMMENT ÇA SE PASSE ── */
+  .steps-list {
+    background: rgba(74,158,106,0.05);
+    border: 1px solid rgba(74,158,106,0.15);
+    border-radius: 12px;
+    padding: 18px 18px 14px;
+    margin-bottom: 28px;
+  }
+  .steps-title {
+    font-size: 11px; color: var(--accent);
+    letter-spacing: 0.25em; text-transform: uppercase;
+    margin-bottom: 14px;
+  }
+  .step-item {
+    display: flex; gap: 12px; margin-bottom: 10px; align-items: flex-start;
+    font-size: 13.5px; line-height: 1.5;
+  }
+  .step-num {
+    background: var(--accent); color: #fff;
+    font-weight: 700; font-size: 11px;
+    min-width: 22px; height: 22px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0; margin-top: 1px;
+  }
+
+  /* ── FORM ── */
+  .form-section { margin-bottom: 22px; }
+  .form-section-title {
+    font-size: 11px; color: var(--accent);
+    letter-spacing: 0.25em; text-transform: uppercase;
+    margin-bottom: 14px; padding-bottom: 8px;
+    border-bottom: 1px solid var(--border);
+  }
+  .form-group { margin-bottom: 16px; }
+  .form-group label {
+    display: block;
+    font-size: 13px; color: var(--text);
+    margin-bottom: 8px; line-height: 1.4;
+  }
+  .form-group label .req { color: var(--accent); }
+  .form-group input[type="text"],
+  .form-group input[type="email"],
+  .form-group input[type="number"],
+  .form-group textarea,
+  .form-group select {
+    width: 100%;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 11px 13px;
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    transition: border-color 0.15s, background 0.15s;
+  }
+  .form-group input:focus,
+  .form-group textarea:focus,
+  .form-group select:focus {
+    outline: none;
+    border-color: var(--accent);
+    background: rgba(255,255,255,0.05);
+  }
+  .form-group textarea {
+    resize: vertical; min-height: 80px;
+  }
+  .radio-group {
+    display: flex; flex-direction: column; gap: 8px;
+  }
+  .radio-option {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 11px 13px;
+    cursor: pointer;
+    transition: border-color 0.15s, background 0.15s;
+    display: flex; align-items: center; gap: 10px;
+    font-size: 13.5px; line-height: 1.4;
+  }
+  .radio-option:hover { border-color: rgba(74,158,106,0.4); }
+  .radio-option input { accent-color: var(--accent); margin: 0; }
+  .radio-option:has(input:checked) {
+    border-color: var(--accent);
+    background: rgba(74,158,106,0.08);
+  }
+
+  /* ── BUTTON ── */
+  .btn-main {
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+    width: 100%;
+    background: var(--accent); color: #fff;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px; font-weight: 700;
+    letter-spacing: 0.06em; text-transform: uppercase;
+    border: none; border-radius: 11px;
+    padding: 16px 20px;
+    text-decoration: none;
+    transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+    box-shadow: 0 4px 22px rgba(74,158,106,0.2);
+    cursor: pointer;
+    margin-top: 6px;
+  }
+  .btn-main:hover {
+    background: #5ab87a;
+    transform: translateY(-1px);
+    box-shadow: 0 6px 30px rgba(74,158,106,0.3);
+  }
+
+  .form-note {
+    font-size: 12px; color: var(--muted);
+    text-align: center; margin-top: 14px; line-height: 1.5;
+  }
+
+  /* ── FOOTER ── */
+  .footer { text-align: center; padding-top: 36px; }
+  .footer-line { font-size: 11px; color: var(--muted); }
+  .footer-sig {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 13px; letter-spacing: 0.2em;
+    color: rgba(255,255,255,0.06);
+    margin-top: 18px;
+  }
+</style>
+</head>
+<body>
+
+<div class="glow-1"></div>
+<div class="glow-2"></div>
+
+<div class="container">
+
+  <!-- ── HEADER ── -->
+  <div class="header">
+    <div class="avatar-ring">
+      <div class="avatar-inner"><img src="photo.jpg" style="width:100%;height:100%;border-radius:50%;object-fit:cover;" alt="Coach by Matt"></div>
+    </div>
+    <div class="handle">@COACHBYMATT</div>
+    <div class="main-title">COACH<br><span>HALTÉROPHILIE</span></div>
+    <div class="tagline">Programmation & coaching à distance</div>
+    <div class="disciplines">
+      <div class="pill">🏋️ Haltérophilie</div>
+      <div class="pill">🥗 Nutrition</div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- ── PARCOURS ── -->
+  <div class="section-label">Mon parcours</div>
+
+  <div class="parcours-card">
+    <div class="parcours-intro">
+      Pas un parcours parfait — un parcours vrai. Du CrossFit à l'haltérophilie, des blessures aux remontées. C'est ce qui fait que je comprends vraiment ce que tu traverses sous la barre.
+    </div>
+    <div class="parcours-steps">
+      <div class="step">
+        <div class="step-year">2016</div>
+        <div class="step-text">Débuts en CrossFit. Premiers Opens dès <strong>2017</strong>, 1 à 2 entraînements/jour pendant près de 2 ans.</div>
+      </div>
+      <div class="step">
+        <div class="step-year">2018</div>
+        <div class="step-text">Tendinopathie aux pouces, changement de vie pro. <strong>6 mois d'arrêt</strong>, puis reprise dans le dur.</div>
+      </div>
+      <div class="step">
+        <div class="step-year">2020</div>
+        <div class="step-text">Covid, remise en question. Je décide de <strong>devenir coach sportif</strong>. Deux échecs aux tests. Ma femme me dit de ne pas lâcher.</div>
+      </div>
+      <div class="step">
+        <div class="step-year">2021</div>
+        <div class="step-text">Je m'entraîne 2x plus dur. <strong>Je réussis le BPJEPS</strong> à Beynost aux côtés de Didier Reiss.</div>
+      </div>
+      <div class="step">
+        <div class="step-year">2023</div>
+        <div class="step-text">Plongeon dans <strong>l'haltérophilie pure</strong> : programmation et coaching spécialisé pendant près de 3 ans.</div>
+      </div>
+      <div class="step">
+        <div class="step-year">2026</div>
+        <div class="step-text">Je me consacre <strong>exclusivement à l'haltérophilie</strong>. Coaching à distance, programmation sur mesure et accompagnement vidéo.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- ── DEMANDE DE COACHING ── -->
+  <div class="section-label">Coaching à distance</div>
+
+  <div class="coaching-card">
+    <span class="card-icon">📩</span>
+    <div class="card-title">DEMANDE DE COACHING</div>
+    <div class="card-desc">
+      Tu veux travailler ton arraché, ton épaulé-jeté, ou construire une vraie base de force ? Remplis ce formulaire — il me permet de comprendre <strong>où tu en es</strong>, <strong>ce que tu cherches</strong>, et si je peux vraiment t'aider. <strong>Je te recontacte sous 48h.</strong>
+    </div>
+
+    <div class="steps-list">
+      <div class="steps-title">Comment ça se passe</div>
+      <div class="step-item">
+        <div class="step-num">1</div>
+        <div>Tu remplis le formulaire (~5 min)</div>
+      </div>
+      <div class="step-item">
+        <div class="step-num">2</div>
+        <div>Je l'étudie et te recontacte sous 48h par mail ou Instagram</div>
+      </div>
+      <div class="step-item">
+        <div class="step-num">3</div>
+        <div>On fixe un appel pour discuter en détail (sans engagement)</div>
+      </div>
+      <div class="step-item">
+        <div class="step-num">4</div>
+        <div>Si on est faits pour bosser ensemble, on démarre</div>
+      </div>
+    </div>
+
+    <form action="https://formspree.io/f/xgoqawlg" method="POST">
+      <input type="hidden" name="_subject" value="Nouvelle demande de coaching haltérophilie">
+
+      <!-- 1. TOI -->
+      <div class="form-section">
+        <div class="form-section-title">1. Toi</div>
+
+        <div class="form-group">
+          <label>Prénom <span class="req">*</span></label>
+          <input type="text" name="prenom" required>
+        </div>
+
+        <div class="form-group">
+          <label>Email <span class="req">*</span></label>
+          <input type="email" name="email" required>
+        </div>
+
+        <div class="form-group">
+          <label>Instagram / WhatsApp (autre moyen de te joindre)</label>
+          <input type="text" name="contact_alt" placeholder="@pseudo ou numéro">
+        </div>
+
+        <div class="form-group">
+          <label>Âge</label>
+          <input type="number" name="age" min="14" max="99">
+        </div>
+      </div>
+
+      <!-- 2. NIVEAU -->
+      <div class="form-section">
+        <div class="form-section-title">2. Ton niveau</div>
+
+        <div class="form-group">
+          <label>Depuis combien de temps pratiques-tu l'haltérophilie ou un sport de force ? <span class="req">*</span></label>
+          <div class="radio-group">
+            <label class="radio-option"><input type="radio" name="experience" value="<6m" required> <span>Moins de 6 mois</span></label>
+            <label class="radio-option"><input type="radio" name="experience" value="6m-1a"> <span>6 mois à 1 an</span></label>
+            <label class="radio-option"><input type="radio" name="experience" value="1-2a"> <span>1 à 2 ans</span></label>
+            <label class="radio-option"><input type="radio" name="experience" value="2-5a"> <span>2 à 5 ans</span></label>
+            <label class="radio-option"><input type="radio" name="experience" value="5a+"> <span>Plus de 5 ans</span></label>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Tes records actuels en kg (si tu en as)</label>
+          <div style="display: flex; flex-direction: column; gap: 8px;">
+            <input type="text" name="record_snatch" placeholder="Snatch">
+            <input type="text" name="record_cj" placeholder="Clean & jerk">
+            <input type="text" name="record_bs" placeholder="Back squat">
+            <input type="text" name="record_fs" placeholder="Front squat">
+            <input type="text" name="record_dl" placeholder="Deadlift">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Combien de séances par semaine en moyenne ? <span class="req">*</span></label>
+          <input type="text" name="frequence" required placeholder="Ex : 4 séances/semaine">
+        </div>
+      </div>
+
+      <!-- 3. OBJECTIF -->
+      <div class="form-section">
+        <div class="form-section-title">3. Ton objectif</div>
+
+        <div class="form-group">
+          <label>Quels sont tes objectifs actuellement ? <span class="req">*</span></label>
+          <textarea name="objectifs" required placeholder="Compétition, technique, force, perte de poids… sois aussi précis que possible."></textarea>
+        </div>
+      </div>
+
+      <!-- 4. CONTEXTE -->
+      <div class="form-section">
+        <div class="form-section-title">4. Ton contexte</div>
+
+        <div class="form-group">
+          <label>Blessures, limitations ou points sensibles à connaître ?</label>
+          <textarea name="blessures" placeholder="Même mineur, dis-moi tout — c'est essentiel pour adapter la prog."></textarea>
+        </div>
+
+        <div class="form-group">
+          <label>Tu as déjà été suivi par un coach ? Qu'est-ce qu'il a travaillé avec toi ?</label>
+          <textarea name="coach_passe" placeholder="Pour voir d'où tu pars."></textarea>
+        </div>
+
+        <div class="form-group">
+          <label>Pourquoi maintenant ? Qu'est-ce qui te pousse à chercher un coach ?</label>
+          <textarea name="pourquoi"></textarea>
+        </div>
+      </div>
+
+      <!-- 5. LA SUITE -->
+      <div class="form-section">
+        <div class="form-section-title">5. La suite</div>
+
+        <div class="form-group">
+          <label>Quel type de suivi cherches-tu ? <span class="req">*</span></label>
+          <div class="radio-group">
+            <label class="radio-option"><input type="radio" name="suivi" value="prog_seule" required> <span>Programmation seule</span></label>
+            <label class="radio-option"><input type="radio" name="suivi" value="complet"> <span>Suivi complet (programmation + échanges + retours vidéo)</span></label>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Une remarque ou question à ajouter ?</label>
+          <textarea name="remarque"></textarea>
+        </div>
+      </div>
+
+      <button type="submit" class="btn-main">📩 Envoyer ma demande →</button>
+
+      <div class="form-note">
+        Réponse garantie sous <strong style="color:var(--accent)">48h</strong> — par mail ou Instagram.
+      </div>
+
+    </form>
+  </div>
+
+  <!-- ── FOOTER ── -->
+  <div class="footer">
+    <div class="footer-line">Des questions ? DM sur Instagram 📩</div>
+    <div class="footer-sig">COACHBYMATT · HALTÉROPHILIE</div>
+  </div>
+
+</div>
+
+</body>
+</html>
